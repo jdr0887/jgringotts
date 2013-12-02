@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+  version="1.0">
+
+  <persistence-unit name="jgringotts" transaction-type="RESOURCE_LOCAL">
+    <provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+    <class>com.psg.jgringotts.dao.model.Item</class>
+    <class>com.psg.jgringotts.dao.model.NamedEntity</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
+      <property name="openjpa.jdbc.DBDictionary" value="derby(NextSequenceQuery=VALUES NEXT VALUE FOR {0})" />
+    </properties>
+  </persistence-unit>
+
+</persistence>

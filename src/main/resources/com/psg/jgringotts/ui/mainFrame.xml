@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frame title="JGringotts" defaultcloseoperation="EXIT_ON_CLOSE" size="800,600">
+  <include ctor="com/psg/jgringotts/ui/menuBar.xml" />
+  <include ctor="com/psg/jgringotts/ui/jgringotts.xml" />
+  <include ctor="com/psg/jgringotts/ui/noAdd.xml" />
+</frame>

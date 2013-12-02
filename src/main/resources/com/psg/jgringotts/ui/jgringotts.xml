@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<panel>
+  <gridbaglayout>
+    <gridbagconstraints id="gbc1" gridx="0" gridy="0" fill="BOTH" weightx="1" weighty="1">
+      <splitpane var="rootFrameSplitPane" orientation="HORIZONTAL_SPLIT" onetouchexpandable="true"
+        dividersize="8">
+        <panel setas="leftcomponent">
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" fill="BOTH" weightx="1" weighty="1">
+              <scrollpane var="itemScrollPane">
+                <list var="rootFrameItemList" mouselistener="rootFrameItemListMouseListener" listselectionlistener="rootFrameItemListSelectionListener"
+                  selectionmode="SINGLE_SELECTION">
+                  <defaultlistmodel var="rootFrameItemListModel" setas="model" />
+                </list>
+              </scrollpane>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+        <panel setas="rightcomponent">
+          <gridbaglayout>
+            <gridbagconstraints id="gbc2" gridx="0" gridy="0" fill="BOTH" weightx="1" weighty="1">
+              <scrollpane var="rootFrameItemDescriptionScrollPane">
+                <textarea var="rootFrameItemDescriptionTextarea" columns="20" rows="4" font="SansSerif,plain,12"
+                  resizable="false" />
+              </scrollpane>
+            </gridbagconstraints>
+          </gridbaglayout>
+        </panel>
+      </splitpane>
+    </gridbagconstraints>
+  </gridbaglayout>
+</panel>

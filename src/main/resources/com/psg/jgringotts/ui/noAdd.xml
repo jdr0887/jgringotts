@@ -1,0 +1,10 @@
+<noadd>
+  <string var="msgConfirmExit" text="Do you really really want to quit?" />
+  <text var="msgCopyright">Jaleetlu, Inc</text>
+  <popupmenu var="rootFrameItemListPopupMenu" font="SansSerif,bold,12" />
+  <include ctor="com/psg/jgringotts/ui/aboutDialog.xml" />
+  <include ctor="com/psg/jgringotts/ui/loginDialog.xml" />
+  <include ctor="com/psg/jgringotts/ui/createItemDialog.xml" />
+  <filechooser var="rootFrameExportFileChooser" dialogtitle="Export" />
+  <filechooser var="rootFrameImportFileChooser" dialogtitle="Import"/>
+</noadd>
