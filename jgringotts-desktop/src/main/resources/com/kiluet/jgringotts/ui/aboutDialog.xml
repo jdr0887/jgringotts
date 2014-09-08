@@ -1,0 +1,37 @@
+<dialog ctor="var:rootFrame" var="aboutDialog" title="About" defaultcloseoperation="DISPOSE_ON_CLOSE"
+  locationrelativeto="rootFrame" size="600,400" resizable="false">
+  <panel>
+    <borderlayout>
+      <constraint location="Center">
+        <tabbedpane>
+          <tab title="About">
+            <scrollpane>
+              <textpane editable="false" font="Bitstream Vera Sans,bold,16">
+                <text src="com/kiluet/jgringotts/ui/README" setas="text" />
+              </textpane>
+            </scrollpane>
+          </tab>
+          <tab title="System Properties">
+            <scrollpane>
+              <table>
+                <tableheader reorderingallowed="false" />
+                <defaulttablemodel setas="model">
+                  <vector setas="columnIdentifiers">
+                    <string text="property name" />
+                    <string text="value" />
+                  </vector>
+                  <varref ctor="systemProperties" />
+                </defaulttablemodel>
+              </table>
+            </scrollpane>
+          </tab>
+        </tabbedpane>
+      </constraint>
+      <constraint location="South">
+        <panel>
+          <button text="OK" actionlistener="aboutDialogOKActionListener" font="Bitstream Vera Sans,bold,14" />
+        </panel>
+      </constraint>
+    </borderlayout>
+  </panel>
+</dialog>
