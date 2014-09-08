@@ -136,11 +136,9 @@ public class JGringotts extends Application {
         pane.add(usernameTextField, 1, 1);
 
         pane.add(new Label("Password:"), 0, 2);
-        passwordField.setText("ainiHu9g");
         pane.add(passwordField, 1, 2);
 
         pane.add(new Label("PIN:"), 0, 3);
-        pinField.setText("11235813");
         pane.add(pinField, 1, 3);
 
         int col = 3;

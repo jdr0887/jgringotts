@@ -41,7 +41,8 @@ public class JGringottsDAOManager {
         File derbySystemDBDirectory = new File(derbySystemHome, "db");
         if (!derbySystemDBDirectory.exists()) {
             properties.put("javax.persistence.jdbc.url", String.format(
-                    "jdbc:derby:target/db;create=true;dataEncryption=true;bootPassword=%s", bootPassword, username, password));
+                    "jdbc:derby:target/db;create=true;dataEncryption=true;bootPassword=%s", bootPassword, username,
+                    password));
             properties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
         } else {
             properties.put("javax.persistence.jdbc.url", String.format(
@@ -49,18 +50,11 @@ public class JGringottsDAOManager {
                     password));
         }
 
-        // properties.put("openjpa.jdbc.DBDictionary", "derby(NextSequenceQuery=VALUES NEXT VALUE FOR {0})");
-        // properties.put("javax.persistence.jdbc.driver", "org.apache.derby.jdbc.EmbeddedDriver");
-        // properties.put("openjpa.ConnectionDriverName", "org.apache.derby.jdbc.EmbeddedDriver");
-
-        // properties.put("javax.persistence.jdbc.url","jdbc:derby:db;create=true;dataEncryption=true;bootPassword=abc1234xyz");
         properties.put("openjpa.jdbc.MappingDefaults",
                 "ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict");
         properties.put("openjpa.jdbc.SchemaFactory", "native(ForeignKeys=true)");
         properties.put("openjpa.Log", "DefaultLevel=WARN, Runtime=INFO, Tool=INFO, SQL=WARN");
         properties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
-        // properties.put("openjpa.Log",
-        // "DefaultLevel=TRACE, Runtime=TRACE, Tool=TRACE, SQL=TRACE");
         properties.put("openjpa.Multithreaded", "true");
         properties.put("openjpa.DataCache", "false");
         properties.put("openjpa.QueryCache", "false");
