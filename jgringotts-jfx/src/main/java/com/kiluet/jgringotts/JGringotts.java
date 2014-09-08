@@ -390,13 +390,13 @@ public class JGringotts extends Application {
                     item.setName(file.getName());
                     item.setDescription(FileUtils.readFileToString(file));
                     itemDAO.save(item);
-
                     observableList.add(item.getName());
-                    Collections.sort(itemListView.getItems(), (String a, String b) -> a.compareTo(b));
                 } catch (IOException | JGringottsDAOException e) {
                     e.printStackTrace();
                 }
             }
+            FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
+            itemListView.setItems(observableList);
         }
     }
 
