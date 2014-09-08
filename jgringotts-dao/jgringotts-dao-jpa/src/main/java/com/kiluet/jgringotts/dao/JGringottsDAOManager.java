@@ -41,7 +41,7 @@ public class JGringottsDAOManager {
         File derbySystemDBDirectory = new File(derbySystemHome, "db");
         if (!derbySystemDBDirectory.exists()) {
             properties.put("javax.persistence.jdbc.url", String.format(
-                    "jdbc:derby:db;create=true;dataEncryption=true;bootPassword=%s", bootPassword, username, password));
+                    "jdbc:derby:target/db;create=true;dataEncryption=true;bootPassword=%s", bootPassword, username, password));
             properties.put("openjpa.jdbc.SynchronizeMappings", "buildSchema(ForeignKeys=true)");
         } else {
             properties.put("javax.persistence.jdbc.url", String.format(
