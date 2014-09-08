@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -85,6 +86,16 @@ public class JGringotts extends Application {
     private final PasswordField pinField = new PasswordField();
 
     private JGringottsDAOManager daoMgr;
+
+    public JGringotts() {
+        super();
+    }
+
+    public String getVersion() {
+        ResourceBundle bundle = ResourceBundle.getBundle("com/kiluet/jgringotts/jgringotts");
+        String version = bundle.getString("version");
+        return StringUtils.isNotEmpty(version) ? version : "0.0.1-SNAPSHOT";
+    }
 
     @Override
     public void start(final Stage stage) throws Exception {
@@ -354,7 +365,7 @@ public class JGringotts extends Application {
     };
 
     public void showAbout() {
-        System.out.println("You clicked on About!");
+        Dialogs.create().masthead("JGringotts").message(String.format("Version: %s", getVersion())).showInformation();
     }
 
     public void doExport() {
@@ -417,13 +428,11 @@ public class JGringotts extends Application {
             controller.setDialogStage(dialogStage);
             controller.setApp(this);
 
-            // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public JGringottsDAOManager getDaoMgr() {

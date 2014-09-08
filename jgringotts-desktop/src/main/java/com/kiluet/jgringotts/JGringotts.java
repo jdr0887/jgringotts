@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 
 import javax.swing.Action;
@@ -23,6 +24,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.event.ListSelectionListener;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.kiluet.jgringotts.dao.JGringottsDAOBean;
 import com.kiluet.jgringotts.ui.actions.RootFrameCreateItemAction;
@@ -156,6 +159,12 @@ public class JGringotts {
         this.rootFrameItemDescriptionTextarea.getInputMap().put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK), "saveAction");
         this.rootFrameItemDescriptionTextarea.getActionMap().put("saveAction", rootFrameSaveItemAction);
+    }
+
+    public String getVersion() {
+        ResourceBundle bundle = ResourceBundle.getBundle("com/kiluet/jgringotts/jgringotts");
+        String version = bundle.getString("version");
+        return StringUtils.isNotEmpty(version) ? version : "0.0.1-SNAPSHOT";
     }
 
     public JGringottsDAOBean getJgringottsDAOBean() {
