@@ -7,22 +7,22 @@
   <packaging>pom</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.project.info.reports.plugin.version>2.7</maven.project.info.reports.plugin.version>
-    <maven.javadoc.plugin.version>2.9.1</maven.javadoc.plugin.version>
-    <maven.deploy.plugin.version>2.8.1</maven.deploy.plugin.version>
-    <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
-    <maven.jxr.plugin.version>2.4</maven.jxr.plugin.version>
-    <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
-    <maven.surefire.report.plugin.version>2.17</maven.surefire.report.plugin.version>
-    <maven.checkstyle.plugin.version>2.12</maven.checkstyle.plugin.version>
-    <maven.changelog.plugin.version>2.2</maven.changelog.plugin.version>
-    <maven.bundle.plugin.version>2.4.0</maven.bundle.plugin.version>
-    <maven.eclipse.plugin.version>2.9</maven.eclipse.plugin.version>
-    <maven.release.plugin.version>2.5</maven.release.plugin.version>
-    <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
-    <maven.war.plugin.version>2.4</maven.war.plugin.version>
-    <maven.surefire.plugin.version>2.17</maven.surefire.plugin.version>
-    <maven.site.plugin.version>3.3</maven.site.plugin.version>
+    <maven.project.info.reports.plugin.version>2.8</maven.project.info.reports.plugin.version>
+    <maven.javadoc.plugin.version>2.10.3</maven.javadoc.plugin.version>
+    <maven.deploy.plugin.version>2.8.2</maven.deploy.plugin.version>
+    <maven.source.plugin.version>2.4</maven.source.plugin.version>
+    <maven.jxr.plugin.version>2.5</maven.jxr.plugin.version>
+    <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
+    <maven.surefire.report.plugin.version>2.18.1</maven.surefire.report.plugin.version>
+    <maven.checkstyle.plugin.version>2.16</maven.checkstyle.plugin.version>
+    <maven.changelog.plugin.version>2.3</maven.changelog.plugin.version>
+    <maven.bundle.plugin.version>2.5.4</maven.bundle.plugin.version>
+    <maven.eclipse.plugin.version>2.10</maven.eclipse.plugin.version>
+    <maven.release.plugin.version>2.5.2</maven.release.plugin.version>
+    <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
+    <maven.war.plugin.version>2.6</maven.war.plugin.version>
+    <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
+    <maven.site.plugin.version>3.4</maven.site.plugin.version>
     <commons.discovery.version>0.5</commons.discovery.version>
     <commons.dbcp.version>1.4</commons.dbcp.version>
     <commons.beanutils.version>1.8.3</commons.beanutils.version>
@@ -31,8 +31,8 @@
     <commons.collections.version>3.2.1</commons.collections.version>
     <commons.cli.version>1.2</commons.cli.version>
     <commons.pool.version>1.5.6</commons.pool.version>
-    <slf4j.version>1.7.2</slf4j.version>
-    <openjpa.version>2.2.2</openjpa.version>
+    <slf4j.version>1.7.12</slf4j.version>
+    <openjpa.version>2.4.0</openjpa.version>
   </properties>
   <licenses>    
     <license>
@@ -49,9 +49,9 @@
       	<version>8.0.6_20</version>
       </dependency>
       <dependency>
-      	<groupId>postgresql</groupId>
+      	<groupId>org.postgresql</groupId>
       	<artifactId>postgresql</artifactId>
-      	<version>9.1-901.jdbc4</version>
+      	<version>9.4-1201-jdbc4</version>
       </dependency>
       <dependency>
       	<groupId>com.kiluet.jgringotts.jgringotts-dao</groupId>
@@ -177,12 +177,22 @@
 	<groupId>org.slf4j</groupId>
 	<artifactId>slf4j-log4j12</artifactId>
 	<version>${slf4j.version}</version>
+      </dependency>          
+      <dependency>
+	<groupId>org.apache.logging.log4j</groupId>
+	<artifactId>log4j-api</artifactId>
+	<version>2.2</version>
       </dependency>
       <dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-	<version>1.2.16</version>
+	<groupId>org.apache.logging.log4j</groupId>
+	<artifactId>log4j-core</artifactId>
+	<version>2.2</version>
       </dependency>
+      <dependency>
+	<groupId>org.apache.logging.log4j</groupId>
+	<artifactId>log4j-slf4j-impl</artifactId>
+	<version>2.2</version>
+      </dependency>      
     </dependencies>
   </dependencyManagement>
   <dependencies>
@@ -204,13 +214,17 @@
       <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+    </dependency>    
   </dependencies>
   <build>
     <pluginManagement>
