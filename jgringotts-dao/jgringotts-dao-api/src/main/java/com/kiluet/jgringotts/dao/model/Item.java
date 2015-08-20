@@ -8,6 +8,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -17,11 +18,14 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "item")
 @NamedQueries({ @NamedQuery(name = "Item.findAll", query = "SELECT a FROM Item a order by a.name"),
-        @NamedQuery(name = "Item.findActive", query = "SELECT a FROM Item a where a.active = 'true' order by a.name"),
         @NamedQuery(name = "Item.findByName", query = "SELECT a FROM Item a where a.name = :name") })
-public class Item extends NamedEntity {
+public class Item extends BaseEntity {
 
     private static final long serialVersionUID = -7459428722822530913L;
+
+    @XmlAttribute(name = "name")
+    @Column(name = "name")
+    private String name;
 
     @Lob
     @Column(name = "description")
@@ -29,6 +33,19 @@ public class Item extends NamedEntity {
 
     public Item() {
         super();
+    }
+
+    public Item(String name) {
+        super();
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -41,9 +58,7 @@ public class Item extends NamedEntity {
 
     @Override
     public String toString() {
-        return String.format(
-                "Item [getId()=%s, getName()=%s, getCreated()=%s, getActive()=%s, getModified()=%s, description=%s]",
-                getId(), getName(), getCreated(), getActive(), getModified(), description);
+        return String.format("Item [id=%s, created=%s, modified=%s, name=%s]", id, created, modified, name);
     }
 
     @Override
@@ -51,6 +66,7 @@ public class Item extends NamedEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -67,6 +83,11 @@ public class Item extends NamedEntity {
             if (other.description != null)
                 return false;
         } else if (!description.equals(other.description))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
             return false;
         return true;
     }
