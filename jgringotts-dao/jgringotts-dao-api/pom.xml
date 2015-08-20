@@ -35,6 +35,7 @@
       <plugin>
 	<groupId>org.codehaus.mojo</groupId>
 	<artifactId>jaxb2-maven-plugin</artifactId>
+	<version>1.6</version>
 	<executions>
 	  <execution>
 	    <id>schemagen</id>
@@ -49,56 +50,14 @@
 	  </includes>
 	</configuration>
       </plugin>
-      <plugin>
-	<artifactId>maven-compiler-plugin</artifactId>
+     <plugin>
+	<groupId>org.apache.openjpa</groupId>
+        <artifactId>openjpa-maven-plugin</artifactId>
+        <version>${openjpa.version}</version>
 	<configuration>
-	  <source>1.7</source>
-	  <target>1.7</target>
-	  <compilerArgument>-proc:none</compilerArgument>
-	</configuration>
-	<executions>
-	  <execution>
-	    <id>run-annotation-processors-only</id>
-	    <phase>generate-sources</phase>
-	    <configuration>
-	      <compilerArgument>-Aopenjpa.metamodel=true</compilerArgument>
-	      <includes>
-		<include>**/model/*.java</include>
-	      </includes>
-	    </configuration>
-	    <goals>
-	      <goal>compile</goal>
-	    </goals>
-	  </execution>
-	</executions>  
-      </plugin>         
-      <plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>build-helper-maven-plugin</artifactId>
-	<executions>      
-	  <execution> 
-	    <phase>process-sources</phase>
-	    <configuration>
-	      <sources>
-		<source>${project.build.directory}/generated-sources/annotations</source>
-	      </sources>
-	    </configuration>
-	    <goals>
-	      <goal>add-source</goal>
-	    </goals>
-	  </execution>
-	</executions>
-      </plugin>
-      <plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>openjpa-maven-plugin</artifactId>
-	<configuration>
-	  <schemaAction />
-	  <schemaFile>target/schema.xml</schemaFile>
-	  <sqlAction>build</sqlAction>    
-	  <sqlFile>target/create.sql</sqlFile>
-	  <includes>**/dao/model/*.class</includes>
-	  <addDefaultConstructor>true</addDefaultConstructor>
+	  <includes>com/kiluet/jgringotts/dao/model/*.class</includes>
+	  <excludes>com/kiluet/jgringotts/dao/model/*_.class,com/kiluet/jgringotts/dao/model/*Type.class</excludes>
+	  <addDefaultConstructor>true</addDefaultConstructor>               
 	  <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
 	</configuration>
 	<executions>
@@ -122,11 +81,48 @@
       </plugin>
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-surefire-plugin</artifactId>
-	<version>${maven.surefire.plugin.version}</version>
+	<artifactId>maven-compiler-plugin</artifactId>
 	<configuration>
-	  <skip>true</skip>
+	  <source>1.8</source>
+	  <target>1.8</target>
+	  <compilerArgument>-proc:none</compilerArgument>
 	</configuration>
+	<executions>
+	  <execution>
+	    <id>run-annotation-processors-only</id>
+	    <phase>generate-sources</phase>
+	    <configuration>
+	      <compilerArgument>-Aopenjpa.metamodel=true</compilerArgument>
+	      <includes>
+		<include>**/model/*.java</include>
+	      </includes>
+	      <excludes>
+		<exclude>**/model/*_.java</exclude>
+		<exclude>**/model/*Type.java</exclude>
+	      </excludes>	      
+	    </configuration>
+	    <goals>
+	      <goal>compile</goal>
+	    </goals>
+	  </execution>
+	</executions>  
+      </plugin>         
+      <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>build-helper-maven-plugin</artifactId>
+	<executions>      
+	  <execution> 
+	    <phase>process-sources</phase>
+	    <configuration>
+	      <sources>
+		<source>${project.build.directory}/generated-sources/annotations</source>
+	      </sources>
+	    </configuration>
+	    <goals>
+	      <goal>add-source</goal>
+	    </goals>
+	  </execution>
+	</executions>
       </plugin>
     </plugins>
   </build>
