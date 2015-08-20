@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+
+<AnchorPane prefHeight="240" prefWidth="460" stylesheets="@login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="com.kiluet.jgringotts.LoginController">
+  <children>
+    <GridPane alignment="CENTER" hgap="20" vgap="20">
+      <padding>
+        <Insets top="10" right="10" bottom="10" left="10" />
+      </padding>
+      <HBox alignment="CENTER" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="6">
+        <Label text="Welcome to JGringotts" styleClass="welcome-text" />
+      </HBox>
+      <Label text="User Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+      <TextField fx:id="usernameTextField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+      <Label text="Password:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+      <PasswordField fx:id="passwordField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+      <Label text="PIN:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+      <PasswordField fx:id="pinField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+      <Button fx:id="pinButton1" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+      <Button fx:id="pinButton2" GridPane.rowIndex="1" GridPane.columnIndex="4" />
+      <Button fx:id="pinButton3" GridPane.rowIndex="1" GridPane.columnIndex="5" />
+      <Button fx:id="pinButton4" GridPane.rowIndex="2" GridPane.columnIndex="3" />
+      <Button fx:id="pinButton5" GridPane.rowIndex="2" GridPane.columnIndex="4" />
+      <Button fx:id="pinButton6" GridPane.rowIndex="2" GridPane.columnIndex="5" />
+      <Button fx:id="pinButton7" GridPane.rowIndex="3" GridPane.columnIndex="3" />
+      <Button fx:id="pinButton8" GridPane.rowIndex="3" GridPane.columnIndex="4" />
+      <Button fx:id="pinButton9" GridPane.rowIndex="3" GridPane.columnIndex="5" />
+      <HBox alignment="CENTER" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.columnSpan="6">
+        <Button fx:id="loginButton" text="Login" onAction="#doLogin" />
+      </HBox>
+    </GridPane>
+  </children>
+</AnchorPane>
+
+
+
+
