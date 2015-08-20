@@ -4,6 +4,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <BorderPane prefHeight="400.0" prefWidth="700.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.kiluet.jgringotts.MainController">
   <top>
@@ -27,6 +28,14 @@
       </menus>
     </MenuBar>
   </top>
+  <center>
+    <SplitPane orientation="HORIZONTAL" dividerPositions="0.3">
+      <items>
+        <ListView fx:id="itemListView" editable="true" onEditCommit="#onEditCommit" onMouseClicked="#itemListViewSelectionHandler" />
+        <TextArea fx:id="itemContentTextArea" onKeyPressed="#itemContentTextAreaKeyHandler" />
+      </items>
+    </SplitPane>
+  </center>
 </BorderPane>
 
 
