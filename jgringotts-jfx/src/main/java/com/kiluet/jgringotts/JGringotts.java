@@ -1,6 +1,5 @@
 package com.kiluet.jgringotts;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -11,13 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.controlsfx.dialog.Dialogs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +23,7 @@ import com.kiluet.jgringotts.dao.model.Item;
 
 public class JGringotts extends Application {
 
-    private final Logger logger = LoggerFactory.getLogger(JGringotts.class);
+    private static final Logger logger = LoggerFactory.getLogger(JGringotts.class);
 
     private Stage stage;
 
@@ -94,13 +89,12 @@ public class JGringotts extends Application {
                 if (itemList != null && !itemList.isEmpty()) {
                     controller.getItemListView().getItems().clear();
                     FXCollections.sort(controller.getObservableList(), (String a, String b) -> a.compareTo(b));
-                    itemList.forEach(u -> controller.getObservableList().add(u.getName()));
+                    itemList.forEach(u -> controller.getObservableList().add(u.getValue()));
                     controller.getItemListView().setItems(controller.getObservableList());
 
                     controller.getItemListView().getSelectionModel().selectFirst();
-                    controller.getItemContentTextArea().setText(
-                            itemDAO.findByName(controller.getItemListView().getSelectionModel().getSelectedItem())
-                                    .getDescription());
+                    Item item = itemDAO.findByValue(controller.getItemListView().getSelectionModel().getSelectedItem());
+                    controller.getItemContentTextArea().setText(item.getDescription());
                 }
             } catch (JGringottsDAOException e) {
                 e.printStackTrace();
