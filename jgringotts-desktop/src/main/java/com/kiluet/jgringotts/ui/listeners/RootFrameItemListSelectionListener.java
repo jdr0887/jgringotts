@@ -23,7 +23,7 @@ public class RootFrameItemListSelectionListener implements ListSelectionListener
         if (!event.getValueIsAdjusting()) {
             String key = desktop.rootFrameItemList.getSelectedValue();
             try {
-                Item item = desktop.getJgringottsDAOBean().getItemDAO().findByName(key);
+                Item item = desktop.getJgringottsDAOBean().getItemDAO().findByValue(key);
                 if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
                     this.desktop.rootFrameItemDescriptionTextarea.setText(item.getDescription());
                 } else {

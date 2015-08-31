@@ -25,7 +25,7 @@ public class CreateItemDialogOKActionListener implements ActionListener {
 
         try {
             Item item = new Item();
-            item.setName(desktop.createItemDialogNameTextField.getText());
+            item.setValue(desktop.createItemDialogNameTextField.getText());
             itemDAO.save(item);
         } catch (JGringottsDAOException e1) {
             e1.printStackTrace();
@@ -36,8 +36,8 @@ public class CreateItemDialogOKActionListener implements ActionListener {
         try {
             List<Item> itemList = itemDAO.findAll();
             List<Item> newItemList = new ArrayList<Item>(itemList);
-            Collections.sort(newItemList, (Item o1, Item o2) -> o1.getName().compareTo(o2.getName()));
-            newItemList.forEach(u -> desktop.rootFrameItemListModel.addElement(u.getName()));
+            Collections.sort(newItemList, (Item o1, Item o2) -> o1.getValue().compareTo(o2.getValue()));
+            newItemList.forEach(u -> desktop.rootFrameItemListModel.addElement(u.getValue()));
         } catch (JGringottsDAOException e1) {
             e1.printStackTrace();
         }

@@ -34,7 +34,7 @@ public class RootFrameExportMenuActionListener implements ActionListener {
             try {
                 List<Item> itemList = itemDAO.findAll();
                 for (Item item : itemList) {
-                    File f = new File(directory, item.getName());
+                    File f = new File(directory, item.getValue());
                     FileUtils.writeStringToFile(f, item.getDescription());
                 }
             } catch (JGringottsDAOException | IOException e1) {

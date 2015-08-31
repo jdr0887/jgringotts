@@ -17,15 +17,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "item")
 @Entity
 @Table(name = "item")
-@NamedQueries({ @NamedQuery(name = "Item.findAll", query = "SELECT a FROM Item a order by a.name"),
-        @NamedQuery(name = "Item.findByName", query = "SELECT a FROM Item a where a.name = :name") })
+@NamedQueries({ @NamedQuery(name = "Item.findAll", query = "SELECT a FROM Item a order by a.value"),
+        @NamedQuery(name = "Item.findByValue", query = "SELECT a FROM Item a where a.value = :value") })
 public class Item extends BaseEntity {
 
     private static final long serialVersionUID = -7459428722822530913L;
 
-    @XmlAttribute(name = "name")
-    @Column(name = "name")
-    private String name;
+    @XmlAttribute(name = "value")
+    @Column(name = "value")
+    private String value;
 
     @Lob
     @Column(name = "description")
@@ -35,17 +35,17 @@ public class Item extends BaseEntity {
         super();
     }
 
-    public Item(String name) {
+    public Item(String value) {
         super();
-        this.name = name;
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getDescription() {
@@ -58,7 +58,7 @@ public class Item extends BaseEntity {
 
     @Override
     public String toString() {
-        return String.format("Item [id=%s, created=%s, modified=%s, name=%s]", id, created, modified, name);
+        return String.format("Item [id=%s, created=%s, modified=%s, name=%s]", id, created, modified, value);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Item extends BaseEntity {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
 
@@ -84,10 +84,10 @@ public class Item extends BaseEntity {
                 return false;
         } else if (!description.equals(other.description))
             return false;
-        if (name == null) {
-            if (other.name != null)
+        if (value == null) {
+            if (other.value != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!value.equals(other.value))
             return false;
         return true;
     }

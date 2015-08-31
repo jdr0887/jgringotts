@@ -33,7 +33,7 @@ public class RootFrameImportMenuActionListener implements ActionListener {
             for (File file : fileArray) {
                 try {
                     Item item = new Item();
-                    item.setName(file.getName());
+                    item.setValue(file.getName());
                     item.setDescription(FileUtils.readFileToString(file));
                     itemDAO.save(item);
                 } catch (JGringottsDAOException e1) {

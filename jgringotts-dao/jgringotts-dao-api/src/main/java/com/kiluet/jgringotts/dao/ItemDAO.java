@@ -12,7 +12,7 @@ public interface ItemDAO extends BaseDAO<Item, Long> {
      * @return
      * @throws JGringottsDAOException
      */
-    public abstract Item findByName(String name) throws JGringottsDAOException;
+    public abstract Item findByValue(String value) throws JGringottsDAOException;
 
     /**
      * 

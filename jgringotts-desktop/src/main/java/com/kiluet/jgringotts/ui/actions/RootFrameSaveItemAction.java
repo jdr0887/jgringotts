@@ -28,7 +28,7 @@ public class RootFrameSaveItemAction extends AbstractAction {
 
         try {
             ItemDAO itemDAO = desktop.getJgringottsDAOBean().getItemDAO();
-            Item item = itemDAO.findByName(key);
+            Item item = itemDAO.findByValue(key);
             item.setDescription(this.desktop.rootFrameItemDescriptionTextarea.getText());
             item.setModified(new Date());
             itemDAO.save(item);

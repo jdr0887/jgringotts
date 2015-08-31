@@ -35,7 +35,7 @@ public class RootFrameDeleteItemAction extends AbstractAction {
         if (response == JOptionPane.YES_OPTION) {
             ItemDAO itemDAO = this.desktop.getJgringottsDAOBean().getItemDAO();
             try {
-                Item item = itemDAO.findByName(key);
+                Item item = itemDAO.findByValue(key);
                 itemDAO.delete(item);
             } catch (JGringottsDAOException e1) {
                 e1.printStackTrace();
@@ -47,10 +47,10 @@ public class RootFrameDeleteItemAction extends AbstractAction {
                 List<Item> itemList = itemDAO.findAll();
                 List<Item> newItemList = new ArrayList<Item>(itemList);
 
-                Collections.sort(newItemList, (Item a, Item b) -> a.getName().compareTo(b.getName()));
+                Collections.sort(newItemList, (Item a, Item b) -> a.getValue().compareTo(b.getValue()));
 
                 for (Item item : newItemList) {
-                    desktop.rootFrameItemListModel.addElement(item.getName());
+                    desktop.rootFrameItemListModel.addElement(item.getValue());
                 }
             } catch (JGringottsDAOException e1) {
                 e1.printStackTrace();

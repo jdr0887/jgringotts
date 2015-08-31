@@ -13,7 +13,7 @@ import com.kiluet.jgringotts.dao.model.Item;
 
 public class ItemDAOImpl extends BaseDAOImpl<Item, Long> implements ItemDAO {
 
-    private final Logger logger = LoggerFactory.getLogger(ItemDAOImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ItemDAOImpl.class);
 
     public ItemDAOImpl() {
         super();
@@ -25,10 +25,10 @@ public class ItemDAOImpl extends BaseDAOImpl<Item, Long> implements ItemDAO {
     }
 
     @Override
-    public Item findByName(String name) throws JGringottsDAOException {
-        logger.info("ENTERING findByName(T)");
-        TypedQuery<Item> query = getEntityManager().createNamedQuery("Item.findByName", Item.class);
-        query.setParameter("name", name);
+    public Item findByValue(String value) throws JGringottsDAOException {
+        logger.info("ENTERING findByValue(String)");
+        TypedQuery<Item> query = getEntityManager().createNamedQuery("Item.findByValue", Item.class);
+        query.setParameter("value", value);
         List<Item> itemList = query.getResultList();
         if (itemList != null && itemList.size() > 0) {
             return itemList.get(0);
