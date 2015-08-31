@@ -4,6 +4,9 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 
 <BorderPane prefHeight="400.0" prefWidth="700.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.kiluet.jgringotts.MainController">
@@ -36,6 +39,15 @@
       </items>
     </SplitPane>
   </center>
+  <bottom>
+    <HBox>
+      <children>
+        <Label fx:id="dateLabel" />
+        <Separator HBox.hgrow="ALWAYS" />
+        <Label fx:id="statusLabel" />
+      </children>
+    </HBox>
+  </bottom>
 </BorderPane>
 
 
