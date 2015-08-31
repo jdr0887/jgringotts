@@ -69,8 +69,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         usernameTextField.setText(System.getProperty("user.name"));
-        passwordField.setText("asdfasdf");
-        pinField.setText("11111111");
+        // passwordField.setText("asdfasdf");
+        // pinField.setText("11111111");
 
         Collections.shuffle(countList);
 
