@@ -3,12 +3,9 @@ package com.kiluet.jgringotts;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.controlsfx.dialog.Dialogs;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -17,7 +14,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -32,6 +32,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
+
 import com.kiluet.jgringotts.dao.ItemDAO;
 import com.kiluet.jgringotts.dao.JGringottsDAOException;
 import com.kiluet.jgringotts.dao.model.Item;
@@ -45,6 +49,12 @@ public class MainController implements Initializable {
 
     @FXML
     private TextArea itemContentTextArea;
+
+    @FXML
+    private Label dateLabel;
+
+    @FXML
+    private Label statusLabel;
 
     private final ContextMenu contextMenu = new ContextMenu();
 
@@ -72,12 +82,16 @@ public class MainController implements Initializable {
 
         observableList.addListener(itemListViewChangeHandler);
 
+        dateLabel.setText(DateFormatUtils.ISO_DATE_FORMAT.format(new Date()));
     }
 
     @FXML
     private void showAbout(final ActionEvent event) {
-        Dialogs.create().masthead("JGringotts").message(String.format("Version: %s", app.getVersion()))
-                .showInformation();
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("JGringotts :: About");
+        alert.setHeaderText("About JGringotts");
+        alert.setContentText(String.format("Version: %s", app.getVersion()));
+        alert.showAndWait();
     }
 
     @FXML
@@ -85,12 +99,17 @@ public class MainController implements Initializable {
 
         try {
             ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
-            Item item = itemDAO.findByName(itemListView.getSelectionModel().getSelectedItem());
+            Item item = itemDAO.findByValue(itemListView.getSelectionModel().getSelectedItem());
             String newValue = event.getNewValue();
-            item.setName(newValue);
+            item.setValue(newValue);
             itemDAO.save(item);
             itemListView.getItems().set(event.getIndex(), event.getNewValue());
-            FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
+
+            if (observableList.size() > 1) {
+                FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
+            } else {
+                itemListView.getSelectionModel().select(0);
+            }
             itemContentTextArea.setText(item.getDescription());
         } catch (JGringottsDAOException e) {
             e.printStackTrace();
@@ -105,7 +124,7 @@ public class MainController implements Initializable {
             ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
             Item item = new Item("New");
             item.setId(itemDAO.save(item));
-            observableList.add(item.getName());
+            observableList.add(item.getValue());
             FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
             itemContentTextArea.setText("");
         } catch (JGringottsDAOException e) {
@@ -124,7 +143,7 @@ public class MainController implements Initializable {
         try {
             List<Item> itemList = itemDAO.findAll();
             for (Item item : itemList) {
-                File f = new File(directory, item.getName());
+                File f = new File(directory, item.getValue());
                 FileUtils.writeStringToFile(f, item.getDescription());
             }
         } catch (JGringottsDAOException | IOException e1) {
@@ -143,10 +162,10 @@ public class MainController implements Initializable {
             for (File file : fileList) {
                 try {
                     Item item = new Item();
-                    item.setName(file.getName());
+                    item.setValue(file.getName());
                     item.setDescription(FileUtils.readFileToString(file));
                     itemDAO.save(item);
-                    observableList.add(item.getName());
+                    observableList.add(item.getValue());
                 } catch (IOException | JGringottsDAOException e) {
                     e.printStackTrace();
                 }
@@ -163,15 +182,18 @@ public class MainController implements Initializable {
 
     @FXML
     public void itemContentTextAreaKeyHandler(KeyEvent event) {
-
+        statusLabel.setText("Not Saved");
         if (event.isControlDown()) {
             boolean matched = saveKeyCombination.match(event);
             if (matched) {
                 ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
                 try {
-                    Item item = itemDAO.findByName(itemListView.getSelectionModel().getSelectedItem());
-                    item.setDescription(itemContentTextArea.getText());
-                    itemDAO.save(item);
+                    Item item = itemDAO.findByValue(itemListView.getSelectionModel().getSelectedItem());
+                    if (item != null) {
+                        item.setDescription(itemContentTextArea.getText());
+                        itemDAO.save(item);
+                        statusLabel.setText("Saved");
+                    }
                 } catch (JGringottsDAOException e) {
                     e.printStackTrace();
                 }
@@ -187,18 +209,21 @@ public class MainController implements Initializable {
             try {
                 String name = itemListView.getSelectionModel().getSelectedItem();
                 if (StringUtils.isNotEmpty(name)) {
-                    Item item = itemDAO.findByName(name);
+                    Item item = itemDAO.findByValue(name);
                     itemDAO.delete(item);
                     observableList.remove(name);
-                    FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
                     if (!itemListView.getItems().isEmpty()) {
+                        FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
                         name = itemListView.getSelectionModel().getSelectedItem();
-                        item = itemDAO.findByName(name);
+                        item = itemDAO.findByValue(name);
                         if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
                             itemContentTextArea.setText(item.getDescription());
                         }
+                    } else {
+                        itemContentTextArea.setText("");
                     }
                 }
+                statusLabel.setText(String.format("Deleted: %s", name));
             } catch (JGringottsDAOException e) {
                 e.printStackTrace();
             }
@@ -235,7 +260,7 @@ public class MainController implements Initializable {
         try {
             String name = itemListView.getSelectionModel().getSelectedItem();
             if (StringUtils.isNotEmpty(name)) {
-                Item item = itemDAO.findByName(name);
+                Item item = itemDAO.findByValue(name);
                 if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
                     itemContentTextArea.setText(item.getDescription());
                 } else {
@@ -255,7 +280,7 @@ public class MainController implements Initializable {
             try {
                 String name = itemListView.getSelectionModel().getSelectedItem();
                 if (StringUtils.isNotEmpty(name) && !observableList.isEmpty()) {
-                    Item item = itemDAO.findByName(name);
+                    Item item = itemDAO.findByValue(name);
                     if (item != null) {
                         itemContentTextArea.setText(item.getDescription());
                     }

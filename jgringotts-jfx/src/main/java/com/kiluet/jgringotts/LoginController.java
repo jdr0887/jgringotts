@@ -9,11 +9,11 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
-import org.controlsfx.dialog.Dialogs;
 
 import com.kiluet.jgringotts.dao.JGringottsDAOManager;
 
@@ -118,7 +118,11 @@ public class LoginController implements Initializable {
         String password = passwordField.getText();
         String pin = pinField.getText();
         if (pin.length() < 8) {
-            Dialogs.create().message("PIN must be a length of 8").showError();
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("ERROR: PIN length");
+            alert.setContentText("PIN must be a length of 8");
+            alert.showAndWait();
             return;
         }
         JGringottsDAOManager daoMgr = JGringottsDAOManager.getInstance(username, password, pin);
