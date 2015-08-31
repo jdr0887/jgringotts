@@ -17,7 +17,7 @@ import com.kiluet.jgringotts.dao.model.Persistable;
 
 public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable> implements BaseDAO<T, ID> {
 
-    private final Logger logger = LoggerFactory.getLogger(BaseDAOImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseDAOImpl.class);
 
     @PersistenceUnit(name = "jgringotts", unitName = "jgringotts")
     private EntityManager entityManager;
