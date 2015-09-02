@@ -34,6 +34,29 @@
     <slf4j.version>1.7.12</slf4j.version>
     <openjpa.version>2.4.0</openjpa.version>
   </properties>
+  <organization>
+    <name>KILUET</name>
+    <url>http://www.kiluet.com/</url>
+  </organization>  
+  <developers>
+    <developer>
+      <id>jdr0887</id>
+      <name>Jason Reilly</name>
+      <email>jdr0887@renci.org</email>
+      <url>https://github.com/jdr0887</url>
+      <organization>KILUET</organization>
+      <organizationUrl>http://www.kiluet.com/</organizationUrl>
+      <roles>
+        <role>Senior Developer</role>
+      </roles>
+    </developer>
+  </developers>  
+  <scm>
+    <url>https://github.com/jdr0887/jgringotts</url>
+    <developerConnection>scm:git:git@github.com:jdr0887/jgringotts.git</developerConnection>
+    <connection>scm:git:git@github.com:jdr0887/jgringotts.git</connection>
+    <tag>HEAD</tag>
+  </scm>
   <licenses>    
     <license>
       <name>GNU GENERAL PUBLIC LICENSE</name>
@@ -41,6 +64,36 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <repositories>
+    <repository>
+      <id>kiluet.repository</id>
+      <name>kiluet.repository</name>
+      <url>http://archiva.renci.org:8080/repository/internal</url>
+      <releases>
+	<enabled>true</enabled>
+      </releases>
+      <snapshots>
+	<enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <distributionManagement>
+    <repository>
+      <id>kiluet.repository</id>
+      <name>kiluet.repository</name>
+      <url>http://archiva.renci.org:8080/repository/internal</url>
+    </repository>
+    <snapshotRepository>
+      <id>kiluet.repository</id>
+      <name>kiluet.repository</name>
+      <url>http://archiva.renci.org:8080/repository/snapshots</url>
+    </snapshotRepository>
+    <site>
+      <id>kiluet.site</id>
+      <name>kiluet.site</name>
+      <url>file:///${user.home}/sites/${project.groupId}/${project.artifactId}</url>
+    </site>
+  </distributionManagement>  
   <dependencyManagement>
     <dependencies>
       <dependency>
