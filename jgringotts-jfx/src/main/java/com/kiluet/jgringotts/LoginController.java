@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import com.kiluet.jgringotts.dao.JGringottsDAOException;
 import com.kiluet.jgringotts.dao.JGringottsDAOManager;
 
 public class LoginController implements Initializable {
@@ -69,8 +70,8 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         usernameTextField.setText(System.getProperty("user.name"));
-        // passwordField.setText("asdfasdf");
-        // pinField.setText("11111111");
+        passwordField.setText("asdfasdf");
+        pinField.setText("11111111");
 
         Collections.shuffle(countList);
 
@@ -96,7 +97,6 @@ public class LoginController implements Initializable {
             });
 
         }
-
     }
 
     private void redrawPINButtons(List<Button> pinButtonList) {
@@ -125,9 +125,19 @@ public class LoginController implements Initializable {
             alert.showAndWait();
             return;
         }
-        JGringottsDAOManager daoMgr = JGringottsDAOManager.getInstance(username, password, pin);
-        app.setDaoMgr(daoMgr);
-        app.showMain();
+        JGringottsDAOManager daoMgr;
+        try {
+            daoMgr = JGringottsDAOManager.getInstance(username, password, pin);
+            app.setDaoMgr(daoMgr);
+            app.showMain();
+        } catch (JGringottsDAOException e) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("ERROR: JGringottsDAOException");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            System.exit(-1);
+        }
     }
 
     public JGringotts getApp() {
