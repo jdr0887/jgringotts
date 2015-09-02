@@ -27,17 +27,17 @@ public class LoginDialogOKActionListener implements ActionListener {
         String password = new String(desktop.loginDialogPasswordPasswordField.getPassword());
         String bootPassword = new String(desktop.loginDialogBootPasswordPasswordField.getPassword());
 
-        JGringottsDAOManager daoMgr = JGringottsDAOManager.getInstance(username, password, bootPassword);
-        desktop.setJgringottsDAOBean(daoMgr.getDaoBean());
-
+        JGringottsDAOManager daoMgr;
         try {
+            daoMgr = JGringottsDAOManager.getInstance(username, password, bootPassword);
+            desktop.setJgringottsDAOBean(daoMgr.getDaoBean());
             ItemDAO itemDAO = daoMgr.getDaoBean().getItemDAO();
             List<Item> itemList = itemDAO.findAll();
             List<Item> newItemList = new ArrayList<Item>(itemList);
             Collections.sort(newItemList, (Item o1, Item o2) -> o1.getValue().compareTo(o2.getValue()));
             newItemList.forEach(u -> desktop.rootFrameItemListModel.addElement(u.getValue()));
-        } catch (JGringottsDAOException e1) {
-            e1.printStackTrace();
+        } catch (JGringottsDAOException e2) {
+            e2.printStackTrace();
         }
 
         desktop.loginDialog.setVisible(false);
