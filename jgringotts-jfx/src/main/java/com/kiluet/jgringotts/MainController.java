@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -58,7 +60,7 @@ public class MainController implements Initializable {
 
     private final ContextMenu contextMenu = new ContextMenu();
 
-    private ObservableList<String> observableList = FXCollections.observableArrayList();
+    private final ObservableList<String> observableList = FXCollections.observableArrayList();
 
     private JGringotts app;
 
@@ -80,7 +82,25 @@ public class MainController implements Initializable {
         itemListView.setItems(observableList);
         itemListView.addEventHandler(MouseEvent.MOUSE_CLICKED, showContextMenuHandler);
 
-        observableList.addListener(itemListViewChangeHandler);
+        itemListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
+                try {
+                    String name = itemListView.getSelectionModel().getSelectedItem();
+                    if (StringUtils.isNotEmpty(name)) {
+                        Item item = itemDAO.findByValue(name);
+                        if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
+                            itemContentTextArea.setText(item.getDescription());
+                        } else {
+                            itemContentTextArea.setText("");
+                        }
+                    }
+                } catch (JGringottsDAOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
 
         dateLabel.setText(DateFormatUtils.ISO_DATE_FORMAT.format(new Date()));
     }
@@ -326,16 +346,12 @@ public class MainController implements Initializable {
         this.itemContentTextArea = itemContentTextArea;
     }
 
-    public ObservableList<String> getObservableList() {
-        return observableList;
-    }
-
-    public void setObservableList(ObservableList<String> observableList) {
-        this.observableList = observableList;
-    }
-
     public ContextMenu getContextMenu() {
         return contextMenu;
+    }
+
+    public ObservableList<String> getObservableList() {
+        return observableList;
     }
 
 }
