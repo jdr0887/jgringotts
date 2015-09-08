@@ -144,7 +144,8 @@ public class MainController implements Initializable {
             ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
             Item item = new Item("New");
             item.setId(itemDAO.save(item));
-            observableList.add(item.getValue());
+            observableList.add(0, item.getValue());
+            itemListView.getSelectionModel().clearAndSelect(0);
             FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
             itemContentTextArea.setText("");
         } catch (JGringottsDAOException e) {
@@ -234,7 +235,6 @@ public class MainController implements Initializable {
                     observableList.remove(name);
                     if (!itemListView.getItems().isEmpty()) {
                         FXCollections.sort(observableList, (String a, String b) -> a.compareTo(b));
-                        name = itemListView.getSelectionModel().getSelectedItem();
                         item = itemDAO.findByValue(name);
                         if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
                             itemContentTextArea.setText(item.getDescription());
