@@ -7,7 +7,6 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 
-
 <AnchorPane prefHeight="240" prefWidth="460" stylesheets="@login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
   fx:controller="com.kiluet.jgringotts.LoginController">
   <children>
