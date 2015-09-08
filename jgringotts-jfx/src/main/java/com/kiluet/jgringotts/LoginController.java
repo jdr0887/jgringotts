@@ -7,6 +7,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.kiluet.jgringotts.dao.JGringottsDAOException;
+import com.kiluet.jgringotts.dao.JGringottsDAOManager;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -14,11 +20,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-
-import com.kiluet.jgringotts.dao.JGringottsDAOException;
-import com.kiluet.jgringotts.dao.JGringottsDAOManager;
+import javafx.scene.input.KeyEvent;
 
 public class LoginController implements Initializable {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     private final List<Integer> countList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
@@ -72,6 +78,7 @@ public class LoginController implements Initializable {
         usernameTextField.setText(System.getProperty("user.name"));
         passwordField.setText("asdfasdf");
         pinField.setText("11111111");
+        pinField.addEventFilter(KeyEvent.KEY_TYPED, u -> u.consume());
 
         Collections.shuffle(countList);
 
@@ -100,7 +107,7 @@ public class LoginController implements Initializable {
     }
 
     private void redrawPINButtons(List<Button> pinButtonList) {
-
+        logger.debug("ENTERING redrawPINButtons(List<Button>)");
         Collections.shuffle(countList);
 
         for (int i = 0; i < countList.size(); ++i) {
