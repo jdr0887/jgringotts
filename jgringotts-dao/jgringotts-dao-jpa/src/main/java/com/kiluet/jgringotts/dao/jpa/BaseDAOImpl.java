@@ -37,7 +37,7 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
         } else {
             entityManager.persist(entity);
         }
-        logger.info(entity.toString());
+        // logger.info(entity.toString());
         entityManager.flush();
         entityManager.getTransaction().commit();
         return entity.getId();
@@ -47,7 +47,7 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
     public void delete(T entity) throws JGringottsDAOException {
         logger.debug("ENTERING delete(T)");
         entityManager.getTransaction().begin();
-        logger.info(entity.toString());
+        // logger.info(entity.toString());
         T foundEntity = entityManager.find(getPersistentClass(), entity.getId());
         entityManager.remove(foundEntity);
         entityManager.getTransaction().commit();
@@ -55,6 +55,7 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
 
     @Override
     public void delete(List<T> entityList) throws JGringottsDAOException {
+        logger.debug("ENTERING delete(List<T>)");
         List<Long> idList = new ArrayList<Long>();
         for (T t : entityList) {
             idList.add(t.getId());
