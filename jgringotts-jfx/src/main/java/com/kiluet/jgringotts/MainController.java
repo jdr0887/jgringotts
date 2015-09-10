@@ -7,6 +7,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.kiluet.jgringotts.dao.ItemDAO;
+import com.kiluet.jgringotts.dao.JGringottsDAOException;
+import com.kiluet.jgringotts.dao.model.Item;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,25 +36,15 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
-
-import com.kiluet.jgringotts.dao.ItemDAO;
-import com.kiluet.jgringotts.dao.JGringottsDAOException;
-import com.kiluet.jgringotts.dao.model.Item;
-
 public class MainController implements Initializable {
 
-    private final KeyCombination saveKeyCombination = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private ListView<String> itemListView;
@@ -54,9 +54,6 @@ public class MainController implements Initializable {
 
     @FXML
     private Label dateLabel;
-
-    @FXML
-    private Label statusLabel;
 
     private final ContextMenu contextMenu = new ContextMenu();
 
@@ -84,6 +81,7 @@ public class MainController implements Initializable {
 
         itemListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> ov, String old_val, String new_val) {
+                logger.debug("ENTERING changed(ObservableValue<? extends String>, String, String)");
                 ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
                 try {
                     String name = itemListView.getSelectionModel().getSelectedItem();
@@ -116,6 +114,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void onEditCommit(ListView.EditEvent<String> event) {
+        logger.debug("ENTERING onEditCommit(ListView.EditEvent<String>)");
 
         try {
             ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
@@ -203,22 +202,16 @@ public class MainController implements Initializable {
 
     @FXML
     public void itemContentTextAreaKeyHandler(KeyEvent event) {
-        statusLabel.setText("Not Saved");
-        if (event.isControlDown()) {
-            boolean matched = saveKeyCombination.match(event);
-            if (matched) {
-                ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
-                try {
-                    Item item = itemDAO.findByValue(itemListView.getSelectionModel().getSelectedItem());
-                    if (item != null) {
-                        item.setDescription(itemContentTextArea.getText());
-                        itemDAO.save(item);
-                        statusLabel.setText("Saved");
-                    }
-                } catch (JGringottsDAOException e) {
-                    e.printStackTrace();
-                }
+        logger.info("ENTERING itemContentTextAreaKeyHandler(KeyEvent)");
+        try {
+            ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
+            Item item = itemDAO.findByValue(itemListView.getSelectionModel().getSelectedItem());
+            if (item != null) {
+                item.setDescription(itemContentTextArea.getText());
+                itemDAO.save(item);
             }
+        } catch (JGringottsDAOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -226,6 +219,7 @@ public class MainController implements Initializable {
 
         @Override
         public void handle(ActionEvent event) {
+            logger.debug("ENTERING handle(ActionEvent)");
             ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
             try {
                 String name = itemListView.getSelectionModel().getSelectedItem();
@@ -243,7 +237,6 @@ public class MainController implements Initializable {
                         itemContentTextArea.setText("");
                     }
                 }
-                statusLabel.setText(String.format("Deleted: %s", name));
             } catch (JGringottsDAOException e) {
                 e.printStackTrace();
             }
@@ -276,19 +269,22 @@ public class MainController implements Initializable {
 
     @FXML
     private void itemListViewSelectionHandler(MouseEvent event) {
-        ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
-        try {
-            String name = itemListView.getSelectionModel().getSelectedItem();
-            if (StringUtils.isNotEmpty(name)) {
-                Item item = itemDAO.findByValue(name);
-                if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
-                    itemContentTextArea.setText(item.getDescription());
-                } else {
-                    itemContentTextArea.setText("");
+        logger.debug("ENTERING itemListViewSelectionHandler(MouseEvent)");
+        if (event.isPopupTrigger()) {
+            try {
+                ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
+                String name = itemListView.getSelectionModel().getSelectedItem();
+                if (StringUtils.isNotEmpty(name)) {
+                    Item item = itemDAO.findByValue(name);
+                    if (item != null && StringUtils.isNotEmpty(item.getDescription())) {
+                        itemContentTextArea.setText(item.getDescription());
+                    } else {
+                        itemContentTextArea.setText("");
+                    }
                 }
+            } catch (JGringottsDAOException e) {
+                e.printStackTrace();
             }
-        } catch (JGringottsDAOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -296,10 +292,11 @@ public class MainController implements Initializable {
 
         @Override
         public void onChanged(Change<? extends String> event) {
-            ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
+            logger.debug("ENTERING onChanged(Change<? extends String>)");
             try {
                 String name = itemListView.getSelectionModel().getSelectedItem();
                 if (StringUtils.isNotEmpty(name) && !observableList.isEmpty()) {
+                    ItemDAO itemDAO = app.getDaoMgr().getDaoBean().getItemDAO();
                     Item item = itemDAO.findByValue(name);
                     if (item != null) {
                         itemContentTextArea.setText(item.getDescription());
