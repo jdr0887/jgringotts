@@ -2,13 +2,13 @@
   <parent>
     <groupId>com.kiluet</groupId>
     <artifactId>jgringotts</artifactId>
-    <version>0.0.4</version>    
+    <version>0.0.5-SNAPSHOT</version>    
   </parent>
   <name>JGringotts :: Desktop</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kiluet.jgringotts.desktop</groupId>
   <artifactId>jgringotts-desktop</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>
