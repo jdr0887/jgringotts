@@ -4,14 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +12,16 @@ import com.kiluet.jgringotts.dao.ItemDAO;
 import com.kiluet.jgringotts.dao.JGringottsDAOException;
 import com.kiluet.jgringotts.dao.JGringottsDAOManager;
 import com.kiluet.jgringotts.dao.model.Item;
+
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class JGringotts extends Application {
 
@@ -42,11 +44,6 @@ public class JGringotts extends Application {
     }
 
     @Override
-    public void init() throws Exception {
-        super.init();
-    }
-
-    @Override
     public void start(final Stage stage) throws Exception {
 
         this.stage = stage;
@@ -60,6 +57,11 @@ public class JGringotts extends Application {
 
             LoginController loginController = loader.getController();
             loginController.setApp(this);
+
+            if (getVersion().contains("SNAPSHOT")) {
+                loginController.getPasswordField().setText("asdfasdf");
+                loginController.getPinField().setText("11111111");
+            }
 
             Scene scene = new Scene(rootPane);
             this.stage.setScene(scene);
@@ -91,10 +93,7 @@ public class JGringotts extends Application {
                     FXCollections.sort(controller.getObservableList(), (String a, String b) -> a.compareTo(b));
                     itemList.forEach(u -> controller.getObservableList().add(u.getValue()));
                     controller.getItemListView().setItems(controller.getObservableList());
-
                     controller.getItemListView().getSelectionModel().selectFirst();
-                    Item item = itemDAO.findByValue(controller.getItemListView().getSelectionModel().getSelectedItem());
-                    controller.getItemContentTextArea().setText(item.getDescription());
                 }
             } catch (JGringottsDAOException e) {
                 e.printStackTrace();
@@ -102,7 +101,24 @@ public class JGringotts extends Application {
 
             Scene scene = new Scene(rootLayout);
             stage.setScene(scene);
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+                @Override
+                public void handle(WindowEvent event) {
+                    try {
+                        Item item = itemDAO
+                                .findByValue(controller.getItemListView().getSelectionModel().getSelectedItem());
+                        item.setDescription(controller.getItemContentTextArea().getText());
+                        itemDAO.save(item);
+                    } catch (JGringottsDAOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
