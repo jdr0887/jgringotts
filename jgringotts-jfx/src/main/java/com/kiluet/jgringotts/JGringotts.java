@@ -105,13 +105,16 @@ public class JGringotts extends Application {
 
                 @Override
                 public void handle(WindowEvent event) {
-                    try {
-                        Item item = itemDAO
-                                .findByValue(controller.getItemListView().getSelectionModel().getSelectedItem());
-                        item.setDescription(controller.getItemContentTextArea().getText());
-                        itemDAO.save(item);
-                    } catch (JGringottsDAOException e) {
-                        e.printStackTrace();
+
+                    if (!controller.getItemListView().getItems().isEmpty()) {
+                        try {
+                            Item item = itemDAO
+                                    .findByValue(controller.getItemListView().getSelectionModel().getSelectedItem());
+                            item.setDescription(controller.getItemContentTextArea().getText());
+                            itemDAO.save(item);
+                        } catch (JGringottsDAOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
