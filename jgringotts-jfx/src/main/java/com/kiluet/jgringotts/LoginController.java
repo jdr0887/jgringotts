@@ -76,8 +76,6 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         usernameTextField.setText(System.getProperty("user.name"));
-        passwordField.setText("asdfasdf");
-        pinField.setText("11111111");
         pinField.addEventFilter(KeyEvent.KEY_TYPED, u -> u.consume());
 
         Collections.shuffle(countList);
@@ -153,6 +151,30 @@ public class LoginController implements Initializable {
 
     public void setApp(JGringotts app) {
         this.app = app;
+    }
+
+    public TextField getUsernameTextField() {
+        return usernameTextField;
+    }
+
+    public void setUsernameTextField(TextField usernameTextField) {
+        this.usernameTextField = usernameTextField;
+    }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public PasswordField getPinField() {
+        return pinField;
+    }
+
+    public void setPinField(PasswordField pinField) {
+        this.pinField = pinField;
     }
 
 }
