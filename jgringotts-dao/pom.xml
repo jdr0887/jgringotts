@@ -2,13 +2,13 @@
   <parent>
     <groupId>com.kiluet</groupId>
     <artifactId>jgringotts</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
   </parent>
   <name>JGringotts :: DAO</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kiluet.jgringotts</groupId>
   <artifactId>jgringotts-dao</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.4</version>
   <packaging>pom</packaging>
   <modules>
     <module>jgringotts-dao-api</module>

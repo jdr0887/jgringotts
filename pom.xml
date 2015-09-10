@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kiluet</groupId>
   <artifactId>jgringotts</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <version>0.0.4</version>
   <packaging>pom</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -54,7 +54,7 @@
     <url>https://github.com/jdr0887/jgringotts</url>
     <developerConnection>scm:git:git@github.com:jdr0887/jgringotts.git</developerConnection>
     <connection>scm:git:git@github.com:jdr0887/jgringotts.git</connection>
-    <tag>HEAD</tag>
+    <tag>jgringotts-0.0.4</tag>
   </scm>
   <licenses>    
     <license>
@@ -103,12 +103,12 @@
       <dependency>
       	<groupId>com.kiluet.jgringotts.jgringotts-dao</groupId>
       	<artifactId>jgringotts-dao-api</artifactId>
-      	<version>0.0.4-SNAPSHOT</version>
+      	<version>0.0.4</version>
       </dependency>
       <dependency>
       	<groupId>com.kiluet.jgringotts.jgringotts-dao</groupId>
       	<artifactId>jgringotts-dao-jpa</artifactId>
-      	<version>0.0.4-SNAPSHOT</version>
+      	<version>0.0.4</version>
       </dependency>
       <dependency>
 	<groupId>junit</groupId>
