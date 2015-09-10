@@ -35,7 +35,7 @@
     <SplitPane orientation="HORIZONTAL" dividerPositions="0.3">
       <items>
         <ListView fx:id="itemListView" editable="true" onEditCommit="#onEditCommit" onMouseClicked="#itemListViewSelectionHandler" />
-        <TextArea fx:id="itemContentTextArea" onKeyPressed="#itemContentTextAreaKeyHandler" />
+        <TextArea fx:id="itemContentTextArea" onKeyReleased="#itemContentTextAreaKeyHandler" />
       </items>
     </SplitPane>
   </center>
@@ -44,7 +44,6 @@
       <children>
         <Label fx:id="dateLabel" />
         <Separator HBox.hgrow="ALWAYS" />
-        <Label fx:id="statusLabel" />
       </children>
     </HBox>
   </bottom>
