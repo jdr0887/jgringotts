@@ -30,13 +30,14 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
 
     @Override
     public Long save(T entity) throws JGringottsDAOException {
-        logger.info("ENTERING save(T)");
+        logger.debug("ENTERING save(T)");
         entityManager.getTransaction().begin();
         if (!entityManager.contains(entity) && entity.getId() != null) {
             entity = entityManager.merge(entity);
         } else {
             entityManager.persist(entity);
         }
+        logger.info(entity.toString());
         entityManager.flush();
         entityManager.getTransaction().commit();
         return entity.getId();
@@ -44,8 +45,9 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
 
     @Override
     public void delete(T entity) throws JGringottsDAOException {
-        logger.info("ENTERING delete(T)");
+        logger.debug("ENTERING delete(T)");
         entityManager.getTransaction().begin();
+        logger.info(entity.toString());
         T foundEntity = entityManager.find(getPersistentClass(), entity.getId());
         entityManager.remove(foundEntity);
         entityManager.getTransaction().commit();
@@ -58,8 +60,8 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
             idList.add(t.getId());
         }
         entityManager.getTransaction().begin();
-        Query qDelete = entityManager.createQuery("delete from " + getPersistentClass().getSimpleName()
-                + " a where a.id in (?1)");
+        Query qDelete = entityManager
+                .createQuery("delete from " + getPersistentClass().getSimpleName() + " a where a.id in (?1)");
         qDelete.setParameter(1, idList);
         qDelete.executeUpdate();
         entityManager.getTransaction().commit();
@@ -67,7 +69,7 @@ public abstract class BaseDAOImpl<T extends Persistable, ID extends Serializable
 
     @Override
     public T findById(ID id) throws JGringottsDAOException {
-        logger.info("ENTERING findById(T)");
+        logger.debug("ENTERING findById(T)");
         T ret = entityManager.find(getPersistentClass(), id);
         return ret;
     }
